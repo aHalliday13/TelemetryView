@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>TelemetryView</title>
+  <meta name="description" content="" />
+</head>
+
+<style>
+    body { 
+        background-color: rgba(0,0,0,0)!important;
+        display: grid;
+        grid-template-columns: 1fr 1.7fr 1fr;
+        grid-template-rows: 4fr 1fr;
+        margin: 0;
+        padding: 10px;
+        width: 1920px;
+        height: 1080px;
+        box-sizing: border-box;
+    }
+
+    .datablock {
+        background-repeat: no-repeat;
+        background-size: contain;
+        background-origin: border-box;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        box-sizing: border-box;
+        padding: 10px;
+    }
+
+    #right-data {
+        grid-row: 2;
+        grid-column: 3;
+        background-image: url("/static/right-blocker.svg");
+        background-position: left bottom;
+        padding-left: 85px;
+    }
+
+    #left-data {
+        grid-row: 2;
+        grid-column: 1;
+        background-image: url("/static/left-blocker.svg");
+        background-position: right bottom;
+        padding-right: 85px;
+    }
+
+    .dataline {
+        display: flex;
+        box-sizing: border-box;
+        width: 100%;
+        justify-content: center;
+        font-size: 52pt;
+    }
+
+    #center-logo {
+        grid-row: 2;
+        grid-column: 2;
+        background-image: url("/static/middle-blocker.svg");
+        background-size: auto;
+        background-position: bottom;
+        justify-content: end;
+        align-items: center;
+    }
+
+    #center-logo img {
+        width: auto;
+        height: 35%;
+        margin-bottom: 25px;
+    }
+
+    #corner-logo {
+        grid-row: 1;
+        grid-column: 1;
+    }
+
+    #corner-logo img {
+        height: 150px;
+    }
+
+</style>
+
+<script src="https://unpkg.com/htmx.org@2.0.4"></script>
+
+<body>
+
+<div id="corner-logo">
+    <img src="/static/cur_logo.png">
+</div>
+
+<div id="left-data" class="datablock">
+    <div class="dataline">
+        T+
+        <div hx-get="/data/fc-time" hx-trigger="every 0.1s">
+            NODATA
+        </div>
+    </div>
+</div>
+
+<div id="center-logo" class="datablock">
+    <img src="/static/text_logo.png">
+</div>
+
+<div id="right-data" class="datablock">
+    <div class="dataline">
+        <div hx-get="/data/speed" hx-trigger="every 0.1s">
+            NODATA
+        </div>
+        &nbsp;ft/s
+    </div>
+
+    <div class="dataline">
+        <div hx-get="/data/agl" hx-trigger="every 0.1s">
+            NODATA
+        </div>
+        &nbsp;ft. AGL
+    </div>
+</div>
+
+</body>
+</html>
