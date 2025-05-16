@@ -7,6 +7,11 @@
 </head>
 
 <style>
+    @font-face {
+        font-family: DIN;
+        src: url("/static/D-DIN.otf") format("opentype");
+    }
+
     body { 
         background-color: rgba(0,0,0,0)!important;
         display: grid;
@@ -17,6 +22,7 @@
         width: 1920px;
         height: 1080px;
         box-sizing: border-box;
+        font-family: 'DIN',monospace;
     }
 
     .datablock {
@@ -93,7 +99,7 @@
 <div id="left-data" class="datablock">
     <div class="dataline">
         T+
-        <div hx-get="/data/fc-time" hx-trigger="every 0.1s">
+        <div hx-get="/data/time" hx-trigger="every 0.1s">
             NODATA
         </div>
     </div>

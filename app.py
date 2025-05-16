@@ -15,6 +15,6 @@ def fetch_telemetry():
     t = {
         "speed":9000,
         "agl":6969,
-        "fc-time":"01:23.45"
+        "time":"01:23.45"
     }
     return t
