@@ -1,3 +1,7 @@
+"""
+Flask web server to render telemetry overlay.
+"""
+
 from flask import Flask, render_template
 import serial
 import altos

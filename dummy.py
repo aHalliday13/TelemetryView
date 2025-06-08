@@ -1,3 +1,8 @@
+"""
+Simulates a TeleBT sending basic telemetry over a serial port. 
+For testing purposes only.
+"""
+
 from pyvirtualserial import VirtualSerial
 from time import sleep
 from random import randbytes
