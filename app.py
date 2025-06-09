@@ -6,13 +6,17 @@ from flask import Flask, render_template
 import serial
 import altos
 import threading
-from pyvirtualserial import VirtualSerial
+from datetime import timedelta
 
 app = Flask(__name__)
 
 @app.route("/")
 def main():
     return render_template("overlay.html")
+
+@app.route("/telemonly")
+def telemonly():
+    return render_template("telemetry_only.html")
 
 @app.route("/data/<key>")
 def data(key):
@@ -23,16 +27,19 @@ def fetch_telemetry():
     global live_packet
 
     try:
+        tick = live_packet["preamble"]["tick"]
+        tick = timedelta(seconds=tick//100)
         t = {
             "speed":live_packet["sensor"]["speed"],
             "agl":live_packet["sensor"]["height"],
-            "time":live_packet["preamble"]["tick"]
+            "time": tick
         }
-    except:
+    except Exception as e:
+        print(e)
         t = {
-            "speed":"BADDATA",
-            "agl":"BADDATA",
-            "time":"BADDATA"
+            "speed":"ERROR",
+            "agl":"ERROR",
+            "time":"ERROR"
         }
     return t
 
@@ -40,12 +47,10 @@ class Listener(threading.Thread):
     def run(self):
         global live_packet
         global tty
-        global virtual_dongle
         with serial.Serial(tty, timeout=1) as ser:
             while True:
                 try:
                     telem = ser.readline()
-                    virtual_dongle.write(telem)
                     telem = telem.decode().strip().upper()
                     packet = altos.parse_serial_line(telem)
                     if packet["preamble"]["type"] == 0x0A:
@@ -55,9 +60,8 @@ class Listener(threading.Thread):
 
 if __name__ == "__main__":
     tty = input("Please specify TTY: ")
-    print("Telemetry Listener Starting")
-    virtual_dongle = VirtualSerial()
-    print(f"Virtual serial port available on {virtual_dongle.get_slave_name()}")
-    listen_thread = Listener()
-    listen_thread.start()
-    app.run()
+    if tty != "":
+        print("Telemetry Listener Starting")
+        listen_thread = Listener()
+        listen_thread.start()
+    app.run(debug=True)

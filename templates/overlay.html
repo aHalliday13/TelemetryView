@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <title>TelemetryView</title>
-  <meta name="description" content="" />
+  <meta name="Telemetry overlay" content="" />
 </head>
 
 <style>
@@ -100,7 +100,7 @@
     <div class="dataline">
         T+
         <div hx-get="/data/time" hx-trigger="every 0.1s">
-            NODATA
+            ERROR
         </div>
     </div>
 </div>
@@ -112,14 +112,14 @@
 <div id="right-data" class="datablock">
     <div class="dataline">
         <div hx-get="/data/speed" hx-trigger="every 0.1s">
-            NODATA
+            ERROR
         </div>
         &nbsp;ft/s
     </div>
 
     <div class="dataline">
         <div hx-get="/data/agl" hx-trigger="every 0.1s">
-            NODATA
+            ERROR
         </div>
         &nbsp;ft. AGL
     </div>
